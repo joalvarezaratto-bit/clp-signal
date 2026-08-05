@@ -1,7 +1,7 @@
 """
 ESTRATEGIA FINAL (validada 17 años) — todo en un módulo limpio para producción.
 
-  Momentum del cobre (3d) + filtro valor justo + confirmación DXY
+  Momentum del cobre (2d) + filtro valor justo + confirmación DXY
   × sizing por actividad (rango diario) + stop-loss 3×ATR.
 
 Validada out-of-sample 2009-2021: CAGR +9%, Sharpe 1,2. 17 años: Sharpe 1,49.
@@ -71,7 +71,7 @@ def valor_z(clp, arr, i, win=60):
     return 0.0 if resid.std() == 0 else float(resid[-1] / resid.std())
 
 
-def _combo_dxy(clp, arr, w=3, t=0.01):
+def _combo_dxy(clp, arr, w=2, t=0.01):
     """Cobre-momentum + filtro valor justo + confirmación DXY."""
     n = len(clp); pos = np.zeros(n); s = 0
     rc = np.concatenate([[0], np.diff(np.log(arr["cobre"]))])
@@ -130,7 +130,7 @@ def posicion(com, arr, hi, lo):
     # contexto de hoy
     rc = np.concatenate([[0], np.diff(np.log(arr["cobre"]))])
     rd = np.concatenate([[0], np.diff(np.log(arr["dxy"]))])
-    ctx = {"mom_cobre": rc[-3:].sum() * 100, "mom_dxy": rd[-5:].sum() * 100,
+    ctx = {"mom_cobre": rc[-2:].sum() * 100, "mom_dxy": rd[-5:].sum() * 100,
            "z": valor_z(clp, arr, n - 1), "act": act[-1],
            "vol": np.diff(np.log(clp))[-20:].std() * np.sqrt(252)}
     return out, ctx

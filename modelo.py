@@ -117,7 +117,7 @@ def reporte():
         L.append(f"Tamaño: <b>{lotes:.2f} lotes</b>")
     L += ["",
           "<b>Por qué:</b>",
-          f"  🥇 Cobre 3d: {ctx['mom_cobre']:+.1f}%",
+          f"  🥇 Cobre 2d: {ctx['mom_cobre']:+.1f}%",
           f"  💵 DXY 5d: {ctx['mom_dxy']:+.1f}%",
           f"  🎯 Valor justo z: {ctx['z']:+.1f}",
           f"  📊 Actividad: {ctx['act']:.0%} del normal",
