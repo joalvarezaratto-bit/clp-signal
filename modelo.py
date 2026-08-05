@@ -33,8 +33,10 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN") or _TOK
 CHAT_ID = int(os.environ.get("CHAT_ID") or _CHAT or 0)
 
 CAPITAL_INICIAL = 1_000_000   # pesos simulados (poné tu capital real)
-TARGET_VOL = 0.10
-MAX_LEV = 3.0
+# Apalancamiento 2x (vol objetivo 20%): esperado ~20-24%/año, caídas -10 a -15%.
+# Para 3x pon TARGET_VOL=0.30 y MAX_LEV=8 (esperado ~30-36%, caídas -15 a -25%).
+TARGET_VOL = 0.20
+MAX_LEV = 6.0
 COST_BPS = 4.4
 USD_POR_LOTE = 100_000
 
