@@ -1,0 +1,36 @@
+name: Paper-trader USD/CLP (diario)
+
+# Corre 1 vez al día hábil (~8:00 Chile), manda la señal y guarda la cuenta.
+on:
+  schedule:
+    - cron: "0 12 * * 1-5"   # 12:00 UTC = 08:00 Chile (lun-vie)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paper-estado
+  cancel-in-progress: false
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Señal del día
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python modelo.py run
+      - name: Guardar la cuenta simulada
+        run: |
+          git config user.name "paper-bot"
+          git config user.email "paper-bot@users.noreply.github.com"
+          git add portfolio.json || true
+          git commit -m "estado: cuenta paper actualizada" || { echo "sin cambios"; exit 0; }
+          git push || (git pull --rebase --autostash && git push) || echo "reintenta luego"

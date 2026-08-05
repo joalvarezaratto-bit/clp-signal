@@ -1,0 +1,10 @@
+# NUNCA subir: tokens
+secrets_local.py
+
+# temporales
+__pycache__/
+*.pyc
+*.png
+
+# OJO: portfolio.json SÍ se versiona (es el estado del paper-trading que la nube
+# guarda de vuelta para no perder la cuenta simulada entre corridas).
