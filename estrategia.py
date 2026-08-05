@@ -132,5 +132,6 @@ def posicion(com, arr, hi, lo):
     rd = np.concatenate([[0], np.diff(np.log(arr["dxy"]))])
     ctx = {"mom_cobre": rc[-2:].sum() * 100, "mom_dxy": rd[-5:].sum() * 100,
            "z": valor_z(clp, arr, n - 1), "act": act[-1],
-           "vol": np.diff(np.log(clp))[-20:].std() * np.sqrt(252)}
+           "vol": np.diff(np.log(clp))[-20:].std() * np.sqrt(252),
+           "atr": float(atr[-1])}   # rango diario esperado en pesos
     return out, ctx

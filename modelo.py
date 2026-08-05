@@ -109,12 +109,15 @@ def reporte():
     pnl = (s["capital"] / CAPITAL_INICIAL - 1) * 100
     notional_usd = abs(s["notional"]) * s["capital"] / precio
     lotes = notional_usd / USD_POR_LOTE
+    atr = ctx.get("atr", 0)
     L = [f"🤖 <b>PAPER-TRADER USD/CLP</b> · {s['fecha']}",
          f"Precio: <b>{precio:,.1f}</b>",
+         f"📏 Rango esperado hoy: ~<b>{atr:.0f} pesos</b>",
          "",
          f"Señal: <b>{nombre}</b>"]
     if abs(pos) > 0.05:
         L.append(f"Tamaño: <b>{lotes:.2f} lotes</b>")
+        L.append(f"🛡️ Stop a ~{3*atr:.0f} pesos ({precio - np.sign(pos)*3*atr:,.0f}) · pérdida máx del trade")
     L += ["",
           "<b>Por qué:</b>",
           f"  🥇 Cobre 2d: {ctx['mom_cobre']:+.1f}%",
